@@ -31,7 +31,7 @@ export class TodoListService {
 
   modifyTodo(
     id: string,
-    dto: { checked: boolean; text: string }
+    dto: { checked?: boolean; text?: string }
   ): Observable<ITodo> {
     return this.http.patch<ITodo>(`${ENDPOINT}/todos/${id}`, dto).pipe(
       catchError((error) => {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ITodo } from '../todo-list/todo-list.types';
 
 @Component({
@@ -8,6 +8,22 @@ import { ITodo } from '../todo-list/todo-list.types';
 })
 export class TodoItemComponent {
   @Input() todo: ITodo;
-  // TODO @Output onCheck
-  // TODO @Output onRemove
+  @Output() modifyTodo = new EventEmitter<{
+    id: string;
+    dto: { checked?: boolean; text?: string };
+  }>();
+  @Output() removeTodo = new EventEmitter<string>();
+
+  onCheck($event: Event) {
+    $event.preventDefault();
+    this.modifyTodo.emit({
+      id: this.todo._id,
+      dto: { checked: !this.todo.checked },
+    });
+  }
+
+  onRemove() {
+    console.log('remove');
+    this.removeTodo.emit(this.todo._id);
+  }
 }

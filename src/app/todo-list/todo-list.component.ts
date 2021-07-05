@@ -20,7 +20,8 @@ export class TodoListComponent implements OnInit {
     private alertService: AlertService
   ) {}
 
-  ngOnInit(): void {
+  private fetchAll() {
+    this.error = '';
     this.loading = true;
     this.todolistService.fetchTodos().subscribe(
       (todos) => {
@@ -36,5 +37,54 @@ export class TodoListComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  ngOnInit(): void {
+    this.fetchAll();
+  }
+
+  addTodo(text: string) {
+    this.todolistService.addTodo(text).subscribe(
+      (todo) => {
+        this.todos.push(todo);
+        this.alertService.success('success');
+      },
+      (error) => {
+        this.alertService.danger(error.message);
+      }
+    );
+  }
+
+  removeTodo(id: string) {
+    this.todolistService.removeTodo(id).subscribe(
+      (todo) => {
+        this.todos = this.todos.filter((t) => t._id !== id);
+        this.alertService.warning('success');
+      },
+      (error) => {
+        this.alertService.danger(error.message);
+      }
+    );
+  }
+
+  modifyTodo({
+    id,
+    dto,
+  }: {
+    id: string;
+    dto: { checked?: boolean; text?: string };
+  }) {
+    this.todolistService.modifyTodo(id, dto).subscribe(
+      (todo) => {
+        this.todos = this.todos.map((t) => (t._id === id ? todo : t));
+      },
+      (error) => {
+        this.alertService.danger(error.message);
+      }
+    );
+  }
+
+  updateList() {
+    this.fetchAll();
   }
 }

@@ -1,10 +1,16 @@
 <div *ngIf="error; else content">
   <p>error...</p>
+  <button (click)="updateList()">refetch</button>
 </div>
 
 <ng-template #content>
   <div class="todo-list" *ngIf="!loading && todos.length">
-    <app-todo-item *ngFor="let todo of todos" [todo]="todo"></app-todo-item>
+    <app-todo-item
+      *ngFor="let todo of todos"
+      [todo]="todo"
+      (modifyTodo)="modifyTodo($event)"
+      (removeTodo)="removeTodo($event)"
+    ></app-todo-item>
   </div>
 
   <div class="todo-list" *ngIf="!loading && !todos.length">
