@@ -1,0 +1,30 @@
+.alert-wrap {
+  position: fixed;
+  top: 40px;
+  right: 50px;
+  max-width: 250px;
+  min-width: 200px;
+
+  .alert {
+    border-radius: 4px;
+    padding: 16px;
+    margin: 8px 0;
+    opacity: 0.9;
+    color: var(--color-primary-text);
+
+    &-success {
+      //   background: var(--color-success);
+      border: 1px solid var(--color-success-accent);
+    }
+
+    &-warning {
+      //   background: var(--color-warning);
+      border: 1px solid var(--color-warning-accent);
+    }
+
+    &-danger {
+      //   background: var(--color-danger);
+      border: 1px solid var(--color-danger-accent);
+    }
+  }
+}
