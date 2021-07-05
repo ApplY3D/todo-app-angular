@@ -3,8 +3,12 @@
 </div>
 
 <ng-template #content>
-  <div class="todo-list" *ngIf="!loading">
+  <div class="todo-list" *ngIf="!loading && todos.length">
     <app-todo-item *ngFor="let todo of todos" [todo]="todo"></app-todo-item>
+  </div>
+
+  <div class="todo-list" *ngIf="!loading && !todos.length">
+    <p>No todos</p>
   </div>
 
   <div class="empty-list" *ngIf="loading">
