@@ -1,0 +1,13 @@
+<div *ngIf="error; else content">
+  <p>error...</p>
+</div>
+
+<ng-template #content>
+  <div class="todo-list" *ngIf="!loading">
+    <app-todo-item *ngFor="let todo of todos" [todo]="todo"></app-todo-item>
+  </div>
+
+  <div class="empty-list" *ngIf="loading">
+    <p>Loading</p>
+  </div>
+</ng-template>
