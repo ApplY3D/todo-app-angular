@@ -14,6 +14,8 @@ export class TodoListComponent implements OnInit {
   public todos: ITodo[] = [];
   error: string;
   loading = false;
+  newTodoText = '';
+  disableInput = false;
 
   constructor(
     private todolistService: TodoListService,
@@ -43,13 +45,20 @@ export class TodoListComponent implements OnInit {
     this.fetchAll();
   }
 
-  addTodo(text: string) {
-    this.todolistService.addTodo(text).subscribe(
+  addTodo() {
+    if (!this.newTodoText) {
+      return;
+    }
+    this.disableInput = true;
+    this.todolistService.addTodo(this.newTodoText).subscribe(
       (todo) => {
+        this.disableInput = false;
+        this.newTodoText = '';
         this.todos.push(todo);
         this.alertService.success('success');
       },
       (error) => {
+        this.disableInput = false;
         this.alertService.danger(error.message);
       }
     );

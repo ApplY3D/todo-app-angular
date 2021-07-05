@@ -5,6 +5,8 @@
 
 <ng-template #content>
   <div class="todo-list" *ngIf="!loading && todos.length">
+    <input [(ngModel)]="newTodoText" placeholder="new todo" type="text" />
+    <button (click)="addTodo()">add</button>
     <app-todo-item
       *ngFor="let todo of todos"
       [todo]="todo"
