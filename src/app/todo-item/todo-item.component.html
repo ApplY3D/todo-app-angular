@@ -1,7 +1,20 @@
-<div class="todo-item">
-  <div>
-    <input [checked]="todo.checked" (click)="onCheck($event)" type="checkbox" />
-    <p>{{ todo.text }}</p>
+<div class="todo-item-wrapper">
+  <div class="todo-item">
+    <input
+      class="todo-checkbox"
+      [disabled]="editing"
+      [checked]="todo.checked"
+      (click)="onCheck($event)"
+      type="checkbox"
+    />
+    <p (click)="onStartEditing(todo._id)" *ngIf="!editing; else editingInput">
+      {{ todo.text }}
+    </p>
+    <ng-template #editingInput>
+      <input (submit)="onEditingSubmit()" [(ngModel)]="updatedText" />
+      <button (click)="onCancelEditing()">cancel</button>
+      <button (click)="onEditingSubmit()">save</button>
+    </ng-template>
   </div>
-  <button (click)="onRemove()">remove</button>
+  <button [disabled]="editing" (click)="onRemove()">remove</button>
 </div>

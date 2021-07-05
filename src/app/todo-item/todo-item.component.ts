@@ -8,11 +8,14 @@ import { ITodo } from '../todo-list/todo-list.types';
 })
 export class TodoItemComponent {
   @Input() todo: ITodo;
+  @Input() editing: boolean;
   @Output() modifyTodo = new EventEmitter<{
     id: string;
     dto: { checked?: boolean; text?: string };
   }>();
   @Output() removeTodo = new EventEmitter<string>();
+  @Output() editTodo = new EventEmitter<string>();
+  updatedText = '';
 
   onCheck($event: Event) {
     $event.preventDefault();
@@ -25,5 +28,22 @@ export class TodoItemComponent {
   onRemove() {
     console.log('remove');
     this.removeTodo.emit(this.todo._id);
+  }
+
+  onStartEditing(id: string) {
+    this.editTodo.emit(id);
+    this.updatedText = this.todo.text;
+  }
+
+  onCancelEditing() {
+    this.editTodo.emit('');
+  }
+
+  onEditingSubmit() {
+    this.modifyTodo.emit({
+      id: this.todo._id,
+      dto: { text: this.updatedText },
+    });
+    this.editTodo.emit('');
   }
 }

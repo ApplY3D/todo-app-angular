@@ -16,6 +16,7 @@ export class TodoListComponent implements OnInit {
   loading = false;
   newTodoText = '';
   disableInput = false;
+  currentlyEditingTodo: string;
 
   constructor(
     private todolistService: TodoListService,
@@ -47,6 +48,7 @@ export class TodoListComponent implements OnInit {
 
   addTodo() {
     if (!this.newTodoText) {
+      this.alertService.danger("please enter todo's text");
       return;
     }
     this.disableInput = true;
@@ -66,7 +68,7 @@ export class TodoListComponent implements OnInit {
 
   removeTodo(id: string) {
     this.todolistService.removeTodo(id).subscribe(
-      (todo) => {
+      () => {
         this.todos = this.todos.filter((t) => t._id !== id);
         this.alertService.warning('success');
       },
@@ -95,5 +97,9 @@ export class TodoListComponent implements OnInit {
 
   updateList() {
     this.fetchAll();
+  }
+
+  editTodo(id: string | '') {
+    this.currentlyEditingTodo = id;
   }
 }

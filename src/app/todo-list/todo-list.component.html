@@ -10,8 +10,10 @@
     <app-todo-item
       *ngFor="let todo of todos"
       [todo]="todo"
+      [editing]="currentlyEditingTodo === todo._id"
       (modifyTodo)="modifyTodo($event)"
       (removeTodo)="removeTodo($event)"
+      (editTodo)="editTodo($event)"
     ></app-todo-item>
   </div>
 
